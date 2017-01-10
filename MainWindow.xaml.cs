@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace ControlDrag
 {
@@ -35,8 +36,11 @@ namespace ControlDrag
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
+                // Mouse 이탈 방지
+                Mouse.Capture(e.Device.Target);
+
                 Point p = e.GetPosition(null);
-                
+
                 if (beforePoint.X != 0 || beforePoint.Y != 0)
                 {
                     // Get vector while mouse drag move
@@ -55,6 +59,7 @@ namespace ControlDrag
             SeolhyunImageBorder.RenderTransform = originTransform;
             beforePoint = new Point();
             relativeVector = new Vector();
+            Mouse.Capture(null);
         }
     }
 }
